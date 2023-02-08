@@ -28,11 +28,12 @@ class RapidWire implements ContainerInterface
         }
 
         if (isset($this->unresolvedClasses[$class])) {
-            $object = $this->unresolvedClasses[$class];
+            $object = $this->unresolvedClasses[$class]();
             if (!is_object($object)) {
                 throw new CallbackException('Callback to resolve class do not return an object.');
             }
             $this->resolvedClasses[$class] = $object;
+            return $object;
         }
 
         if (!class_exists($class)) {
@@ -40,7 +41,7 @@ class RapidWire implements ContainerInterface
                 sprintf('Only classes are auto resolvable. Please register %s manualy.', $class)
             );
         }
-        $resolvedClass = $this->autoResolveClass($class);
+        $resolvedClass = $this->resolveClass($class);
 
         $this->resolvedClasses[$class] = $resolvedClass;
         return $resolvedClass;
@@ -51,7 +52,7 @@ class RapidWire implements ContainerInterface
         return isset($this->unresolvedClasses[$class]) || isset($this->resolvedClasses[$class]);
     }
 
-    protected function autoResolveClass(string $class)
+    protected function resolveClass(string $class)
     {
         $reflection = new ReflectionClass($class);
         $args = $this->resolveParameters($reflection);
@@ -88,7 +89,9 @@ class RapidWire implements ContainerInterface
 
             if (!$parameter->isDefaultValueAvailable()) {
                 throw new UnresolvableException(
-                    'Cannot resolve parameter %s of constructor of %s.', $name, $class
+                    'Cannot resolve parameter %s of constructor of %s.',
+                    $name,
+                    $class
                 );
             }
         }
