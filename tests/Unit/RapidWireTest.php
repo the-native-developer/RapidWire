@@ -3,6 +3,9 @@
 namespace TheNativeDeveloper\RapidWire\Tests\Unit;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
+use TheNativeDeveloper\RapidWire\Exceptions\CallbackException;
+use TheNativeDeveloper\RapidWire\Exceptions\NoTypeException;
+use ReflectionException;
 use TheNativeDeveloper\RapidWire\Exceptions\UnresolvableException;
 use TheNativeDeveloper\RapidWire\RapidWire;
 
@@ -13,6 +16,22 @@ class RapidWireTest extends MockeryTestCase
     protected function setUp(): void
     {
         $this->rapid = new RapidWire();
+    }
+
+    /**
+     * @test
+     */
+    public function register_callbackDontReturnObject_throwsCallbackException(): void
+    {
+        $this->rapid
+             ->register(DummyClass::class, function() {
+                 new DummyClass();
+             });
+
+        $this->expectException(CallbackException::class);
+
+        $this->rapid
+             ->get(DummyClass::class);
     }
 
     /**
