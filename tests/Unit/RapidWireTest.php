@@ -4,8 +4,6 @@ namespace TheNativeDeveloper\RapidWire\Tests\Unit;
 
 use Mockery\Adapter\Phpunit\MockeryTestCase;
 use TheNativeDeveloper\RapidWire\Exceptions\CallbackException;
-use TheNativeDeveloper\RapidWire\Exceptions\NoTypeException;
-use ReflectionException;
 use TheNativeDeveloper\RapidWire\Exceptions\UnresolvableException;
 use TheNativeDeveloper\RapidWire\RapidWire;
 
