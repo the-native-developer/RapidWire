@@ -1,2 +1,4 @@
+.phpunit.result.cache
 .tools/
 /vendor/
+/coverage/
