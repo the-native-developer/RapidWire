@@ -5,6 +5,7 @@ namespace TheNativeDeveloper\RapidWire\Exceptions;
 use Exception;
 use Psr\Container\ContainerExceptionInterface;
 
-class NoTypeException extends Exception implements ContainerExceptionInterface
+class DuplicateContainerIdException extends Exception implements ContainerExceptionInterface
 {
+
 }
